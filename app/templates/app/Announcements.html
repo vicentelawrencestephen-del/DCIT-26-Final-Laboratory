@@ -1,0 +1,71 @@
+{% extends 'app/base.html' %}
+{% block content %}
+
+<div class="container mt-5">
+
+    <!-- Page Header -->
+    <div class="page-header text-center mb-4">
+        <h1 class="display-4">📢 Announcements</h1>
+    </div>
+
+    <!-- Announcements Card -->
+    <div class="content-card p-4 shadow rounded">
+
+        <h2 class="mb-4">Latest Announcements</h2>
+
+        <!-- Announcement Item -->
+        <div class="alert alert-info d-flex align-items-start mb-3 shadow-sm rounded">
+            <div>
+                <strong><span class="me-2">🎓</span>Scholarship Application Open</strong> <br>
+                Applications are now open until <strong>February 15, 2026</strong>.
+                Make sure to prepare all documents and submit early.
+                <div class="text-muted small">Posted on: January 10, 2026</div>
+            </div>
+        </div>
+
+        <div class="alert alert-success d-flex align-items-start mb-3 shadow-sm rounded">
+            <div>
+                <strong><span class="me-2">✅</span>Approved Scholars Posted</strong> <br>
+                The list of approved scholars is now available on the dashboard.
+                Congratulations to all who qualified! Review your status now.
+                <div class="text-muted small">Posted on: January 12, 2026</div>
+            </div>
+        </div>
+
+        <div class="alert alert-warning d-flex align-items-start mb-3 shadow-sm rounded">
+            <div>
+                <strong><span class="me-2">⏰</span>Deadline Reminder</strong> <br>
+                Submit all requirements before the deadline to avoid disqualification.
+                <div class="text-muted small">Posted on: January 14, 2026</div>
+            </div>
+        </div>
+
+        <div class="alert alert-secondary d-flex align-items-start mb-3 shadow-sm rounded">
+            <div>
+                <strong><span class="me-2">📝</span>Orientation Schedule Released</strong> <br>
+                Orientation for new scholars will be held on <strong>February 20, 2026</strong>. Attendance is mandatory.
+                <div class="text-muted small">Posted on: January 13, 2026</div>
+            </div>
+        </div>
+
+        <div class="alert alert-primary d-flex align-items-start mb-3 shadow-sm rounded">
+            <div>
+                <strong><span class="me-2">📅</span>Upcoming Webinar</strong> <br>
+                Join our webinar on "Effective Study Habits" on <strong>January 25, 2026</strong>. Register through the dashboard.
+                <div class="text-muted small">Posted on: January 11, 2026</div>
+            </div>
+        </div>
+
+        <div class="alert alert-danger d-flex align-items-start mb-3 shadow-sm rounded">
+            <div>
+                <strong><span class="me-2">⚠️</span>Incomplete Applications</strong> <br>
+                Check your application status and ensure all fields are completed to avoid disqualification.
+                <div class="text-muted small">Posted on: January 14, 2026</div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock content %}

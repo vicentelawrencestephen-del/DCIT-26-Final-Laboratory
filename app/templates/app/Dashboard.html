@@ -1,0 +1,120 @@
+<!-- home.html -->
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block title %}Home - Scholarship Management System{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Dashboard</h1>
+    <a href="{% url 'applicant_create' %}" class="btn btn-primary">Apply for Scholarship</a>
+</div>
+
+<!-- Statistics Cards -->
+<div class="dashboard-grid">
+    <div class="stat-card">
+        <div class="stat-icon blue">📚</div>
+        <div class="stat-details">
+            <h3>{{ total_scholarships }}</h3>
+            <p>Available Scholarships</p>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon green">✓</div>
+        <div class="stat-details">
+            <h3>{{ approved_applications }}</h3>
+            <p>Approved Applications</p>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon orange">⏳</div>
+        <div class="stat-details">
+            <h3>{{ pending_applications }}</h3>
+            <p>Pending Applications</p>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon red">👥</div>
+        <div class="stat-details">
+            <h3>{{ total_beneficiaries }}</h3>
+            <p>Total Beneficiaries</p>
+        </div>
+    </div>
+</div>
+
+<!-- Welcome Section -->
+<div class="content-card">
+    <h2>Welcome to my Local Scholarship and Benefeciary Information Management System</h2>
+    <p style="line-height: 1.8; color: #555;">
+        This platform helps students find and apply for scholarships, and allows administrators to manage beneficiaries effectively.
+        Browse available scholarships, check requirements, and submit your application online.
+    </p>
+</div>
+
+<!-- Recent Scholarships -->
+<div class="content-card">
+    <h2>Featured Scholarships</h2>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Scholarship Name</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Deadline</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for scholarship in featured_scholarships %}
+                <tr>
+                    <td><strong>{{ scholarship.name }}</strong></td>
+                    <td>{{ scholarship.type }}</td>
+                    <td>${{ scholarship.amount }}</td>
+                    <td>{{ scholarship.deadline|date:"M d, Y" }}</td>
+                    <td>
+                        {% if scholarship.is_active %}
+                        <span class="badge badge-success">Open</span>
+                        {% else %}
+                        <span class="badge badge-danger">Closed</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'scholarship_detail' scholarship.id %}" class="btn btn-primary btn-sm">View Details</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" style="text-align: center; padding: 30px;">No scholarships available at the moment.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div style="margin-top: 20px; text-align: center;">
+        <a href="{% url 'Scholarships' %}" class="btn btn-primary">View All Scholarships</a>
+    </div>
+</div>
+
+<!-- Recent Announcements -->
+<div class="content-card">
+    <h2>Latest Announcements</h2>
+    {% for announcement in recent_announcements %}
+    <div style="padding: 15px; border-left: 4px solid var(--secondary); background: #f8f9fa; margin-bottom: 15px; border-radius: 5px;">
+        <h3 style="color: var(--primary); margin-bottom: 8px;">{{ announcement.title }}</h3>
+        <p style="color: #666; font-size: 14px; margin-bottom: 8px;">{{ announcement.content|truncatewords:30 }}</p>
+        <small style="color: #999;">Posted on {{ announcement.created_at|date:"M d, Y" }}</small>
+    </div>
+    {% empty %}
+    <p style="text-align: center; color: #999; padding: 20px;">No announcements yet.</p>
+    {% endfor %}
+    <div style="margin-top: 20px; text-align: center;">
+        <a href="{% url 'Announcements' %}" class="btn btn-primary">View All Announcements</a>
+    </div>
+</div>
+
+{% endblock %}

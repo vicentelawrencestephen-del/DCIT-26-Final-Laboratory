@@ -1,42 +1,57 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView,ListView, DetailView
+from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Post
+from .models import Applicant
 from django.urls import reverse_lazy
 
+
 class HomePageView(TemplateView):
-    template_name = 'app/home.html'
+    template_name = 'app/Dashboard.html'
 
-class AboutPageView(TemplateView):
-    template_name = 'app/about.html'
 
-class ShopPageView(TemplateView):
-    template_name = 'app/shop.html'
+class ScholarshipsPageView(TemplateView):
+    template_name = 'app/Scholarships.html'
+
+
+class ApplicantListView(ListView):
+    model = Applicant
+    context_object_name = 'applicants'
+    template_name = 'app/applicant_list.html'
+
+
+class ApplicantDetailView(DetailView):
+    model = Applicant
+    context_object_name = 'applicant'
+    template_name = 'app/applicant_detail.html'
+
+
+class ApplicantCreateView(CreateView):
+    model = Applicant
+    fields = ['first_name', 'last_name', 'birthdate', 'address', 'contact_no', 'email']
+    template_name = 'app/applicant_create.html'
+    success_url = reverse_lazy('applicant_list')
+
+
+class ApplicantUpdateView(UpdateView):
+    model = Applicant
+    fields = ['first_name', 'last_name', 'birthdate', 'address', 'contact_no', 'email']
+    template_name = 'app/applicant_update.html'
+    success_url = reverse_lazy('applicant_list')
+
+
+class ApplicantDeleteView(DeleteView):
+    model = Applicant
+    template_name = 'app/applicant_delete.html'
+    success_url = reverse_lazy('applicant_list')
+
+
+class RequirementsPageView(TemplateView):
+    template_name = 'app/Requirements.html'
+
+
+class AnnouncementsPageView(TemplateView):
+    template_name = 'app/Announcements.html'
+
 
 class ContactPageView(TemplateView):
-    template_name = 'app/contact.html'
-
-class BlogListView(ListView):
-    model = Post
-    context_object_name = 'posts'
-    template_name = 'app/blog_list.html'
-
-class BlogDetailView(DetailView):
-    model = Post
-    context_object_name = 'post'
-    template_name = 'app/blog_detail.html'
-
-class BlogCreateView(CreateView):
-    model = Post
-    fields = ['title', 'author', 'body']
-    template_name = 'app/blog_create.html'
-
-class BlogUpdateView(UpdateView):
-    model = Post
-    fields = ['title', 'author', 'body']
-    template_name = 'app/blog_update.html'
-
-class BlogDeleteView(DeleteView):
-    model = Post
-    template_name = 'app/blog_delete.html'
-    success_url = reverse_lazy('blog')
+    template_name = 'app/Contact.html'

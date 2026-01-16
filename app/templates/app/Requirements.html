@@ -1,0 +1,93 @@
+{% load static %}
+
+
+    <meta charset="UTF-8">
+    <title>Requirements</title>
+
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+
+
+{% include 'app/navbar.html' %}
+
+<div class="container">
+
+    <div class="page-header">
+        <h1>Requirements</h1>
+        <a href="{% url 'applicant_create' %}" class="btn btn-primary">
+            Apply for Scholarship
+        </a>
+    </div>
+
+    <div class="alert alert-info">
+        Ensure that all required documents are complete, clear, and valid before submission.
+        Incomplete applications will not be processed.
+    </div>
+
+    <div class="content-card">
+        <h2>General Scholarship Requirements</h2>
+
+        <div class="form-grid">
+            <div>
+                <h4>Completed Application Form</h4>
+                <p>All personal and academic details must be filled out correctly.</p>
+                <span class="badge badge-info">Mandatory</span>
+            </div>
+
+            <div>
+                <h4>Valid School ID</h4>
+                <p>Must indicate the current academic year.</p>
+                <span class="badge badge-success">Required</span>
+            </div>
+
+            <div>
+                <h4>Certificate of Enrollment</h4>
+                <p>Issued by the school registrar.</p>
+                <span class="badge badge-success">Required</span>
+            </div>
+
+            <div>
+                <h4>Latest Grade Report</h4>
+                <p>Must meet the minimum academic requirement.</p>
+                <span class="badge badge-warning">For Evaluation</span>
+            </div>
+
+            <div>
+                <h4>Barangay Clearance</h4>
+                <p>Issued within the last six (6) months.</p>
+                <span class="badge badge-info">Mandatory</span>
+            </div>
+
+            <div>
+                <h4>Birth Certificate (PSA)</h4>
+                <p>Photocopy or scanned copy is accepted.</p>
+                <span class="badge badge-success">Required</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-card">
+        <h2>Additional Requirements (If Applicable)</h2>
+
+        <div class="form-grid">
+            <div>
+                <h4>Proof of Family Income</h4>
+                <p>ITR, Certificate of Indigency, or Payslip.</p>
+                <span class="badge badge-warning">Conditional</span>
+            </div>
+
+            <div>
+                <h4>Recommendation Letter</h4>
+                <p>From a teacher, adviser, or guidance counselor.</p>
+                <span class="badge badge-warning">Conditional</span>
+            </div>
+
+            <div>
+                <h4>Personal Essay</h4>
+                <p>Explains background, goals, and reason for applying.</p>
+                <span class="badge badge-info">For Review</span>
+            </div>
+        </div>
+    </div>
+
+</div>
+

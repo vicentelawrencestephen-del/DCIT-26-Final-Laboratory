@@ -1,0 +1,276 @@
+<!-- apply.html -->
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block title %}Apply for Scholarship{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Scholarship Application Form</h1>
+</div>
+
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+{% endif %}
+
+<div class="content-card">
+    <h2>Application Information</h2>
+    <p style="color: #666; margin-bottom: 30px;">Please fill out all required fields marked with <span style="color: var(--danger);">*</span></p>
+
+    <form method="POST" enctype="multipart/form-data" id="applicationForm">
+        {% csrf_token %}
+        
+        <!-- Scholarship Selection -->
+        <div class="form-group">
+            <label for="scholarship">Select Scholarship <span style="color: var(--danger);">*</span></label>
+            <select name="scholarship" id="scholarship" class="form-control" required>
+                <option value="">-- Choose a scholarship --</option>
+                {% for scholarship in scholarships %}
+                <option value="{{ scholarship.id }}" {% if request.GET.scholarship == scholarship.id|stringformat:"s" %}selected{% endif %}>
+                    {{ scholarship.name }} - ${{ scholarship.amount }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <h3 style="color: var(--primary); margin: 30px 0 20px 0; padding-top: 20px; border-top: 2px solid var(--light);">Personal Information</h3>
+        
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="first_name">First Name <span style="color: var(--danger);">*</span></label>
+                <input type="text" name="first_name" id="first_name" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="middle_name">Middle Name</label>
+                <input type="text" name="middle_name" id="middle_name" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="last_name">Last Name <span style="color: var(--danger);">*</span></label>
+                <input type="text" name="last_name" id="last_name" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="date_of_birth">Date of Birth <span style="color: var(--danger);">*</span></label>
+                <input type="date" name="date_of_birth" id="date_of_birth" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="gender">Gender <span style="color: var(--danger);">*</span></label>
+                <select name="gender" id="gender" class="form-control" required>
+                    <option value="">-- Select --</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="civil_status">Civil Status</label>
+                <select name="civil_status" id="civil_status" class="form-control">
+                    <option value="single">Single</option>
+                    <option value="married">Married</option>
+                    <option value="widowed">Widowed</option>
+                    <option value="separated">Separated</option>
+                </select>
+            </div>
+        </div>
+
+        <h3 style="color: var(--primary); margin: 30px 0 20px 0; padding-top: 20px; border-top: 2px solid var(--light);">Contact Information</h3>
+        
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="email">Email Address <span style="color: var(--danger);">*</span></label>
+                <input type="email" name="email" id="email" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number <span style="color: var(--danger);">*</span></label>
+                <input type="tel" name="phone" id="phone" class="form-control" placeholder="+63 XXX XXX XXXX" required>
+            </div>
+
+            <div class="form-group" style="grid-column: 1 / -1;">
+                <label for="address">Complete Address <span style="color: var(--danger);">*</span></label>
+                <textarea name="address" id="address" class="form-control" rows="3" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="city">City/Municipality <span style="color: var(--danger);">*</span></label>
+                <input type="text" name="city" id="city" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="province">Province <span style="color: var(--danger);">*</span></label>
+                <input type="text" name="province" id="province" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="zip_code">ZIP Code</label>
+                <input type="text" name="zip_code" id="zip_code" class="form-control">
+            </div>
+        </div>
+
+        <h3 style="color: var(--primary); margin: 30px 0 20px 0; padding-top: 20px; border-top: 2px solid var(--light);">Educational Background</h3>
+        
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="school_name">School/University Name <span style="color: var(--danger);">*</span></label>
+                <input type="text" name="school_name" id="school_name" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="course">Course/Program <span style="color: var(--danger);">*</span></label>
+                <input type="text" name="course" id="course" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="year_level">Year Level <span style="color: var(--danger);">*</span></label>
+                <select name="year_level" id="year_level" class="form-control" required>
+                    <option value="">-- Select --</option>
+                    <option value="1">1st Year</option>
+                    <option value="2">2nd Year</option>
+                    <option value="3">3rd Year</option>
+                    <option value="4">4th Year</option>
+                    <option value="5">5th Year</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="gpa">Current GPA/Grade <span style="color: var(--danger);">*</span></label>
+                <input type="number" name="gpa" id="gpa" step="0.01" min="0" max="5" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="student_id">Student ID Number</label>
+                <input type="text" name="student_id" id="student_id" class="form-control">
+            </div>
+        </div>
+
+        <h3 style="color: var(--primary); margin: 30px 0 20px 0; padding-top: 20px; border-top: 2px solid var(--light);">Family Information</h3>
+        
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="father_name">Father's Name</label>
+                <input type="text" name="father_name" id="father_name" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="father_occupation">Father's Occupation</label>
+                <input type="text" name="father_occupation" id="father_occupation" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="mother_name">Mother's Name</label>
+                <input type="text" name="mother_name" id="mother_name" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="mother_occupation">Mother's Occupation</label>
+                <input type="text" name="mother_occupation" id="mother_occupation" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="family_income">Monthly Family Income <span style="color: var(--danger);">*</span></label>
+                <input type="number" name="family_income" id="family_income" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="siblings">Number of Siblings</label>
+                <input type="number" name="siblings" id="siblings" min="0" class="form-control">
+            </div>
+        </div>
+
+        <h3 style="color: var(--primary); margin: 30px 0 20px 0; padding-top: 20px; border-top: 2px solid var(--light);">Required Documents</h3>
+        
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="photo">2x2 Photo <span style="color: var(--danger);">*</span></label>
+                <input type="file" name="photo" id="photo" class="form-control" accept="image/*" required>
+            </div>
+
+            <div class="form-group">
+                <label for="birth_certificate">Birth Certificate (PDF) <span style="color: var(--danger);">*</span></label>
+                <input type="file" name="birth_certificate" id="birth_certificate" class="form-control" accept=".pdf" required>
+            </div>
+
+            <div class="form-group">
+                <label for="grades">Certificate of Grades (PDF) <span style="color: var(--danger);">*</span></label>
+                <input type="file" name="grades" id="grades" class="form-control" accept=".pdf" required>
+            </div>
+
+            <div class="form-group">
+                <label for="income_cert">Income Certificate (PDF)</label>
+                <input type="file" name="income_cert" id="income_cert" class="form-control" accept=".pdf">
+            </div>
+        </div>
+
+        <h3 style="color: var(--primary); margin: 30px 0 20px 0; padding-top: 20px; border-top: 2px solid var(--light);">Essay</h3>
+        
+        <div class="form-group">
+            <label for="essay">Why do you deserve this scholarship? (Minimum 200 words) <span style="color: var(--danger);">*</span></label>
+            <textarea name="essay" id="essay" class="form-control" rows="8" required placeholder="Share your story, achievements, goals, and why you need this scholarship..."></textarea>
+            <small style="color: #666;">Word count: <span id="wordCount">0</span> words</small>
+        </div>
+
+        <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 10px;">
+                <input type="checkbox" name="terms" required>
+                <span>I certify that all information provided is true and accurate <span style="color: var(--danger);">*</span></span>
+            </label>
+        </div>
+
+        <div style="display: flex; gap: 15px; justify-content: flex-end; margin-top: 30px;">
+            <a href="{% url 'Scholarships' %}" class="btn btn-danger">Cancel</a>
+            <button type="submit" class="btn btn-success">Submit Application</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Word counter for essay
+    const essay = document.getElementById('essay');
+    const wordCount = document.getElementById('wordCount');
+    
+    essay.addEventListener('input', function() {
+        const words = this.value.trim().split(/\s+/).filter(word => word.length > 0);
+        wordCount.textContent = words.length;
+        
+        if (words.length < 200) {
+            wordCount.style.color = 'var(--danger)';
+        } else {
+            wordCount.style.color = 'var(--success)';
+        }
+    });
+
+    // Form validation
+    document.getElementById('applicationForm').addEventListener('submit', function(e) {
+        const words = essay.value.trim().split(/\s+/).filter(word => word.length > 0);
+        
+        if (words.length < 200) {
+            e.preventDefault();
+            alert('Essay must be at least 200 words.');
+            essay.focus();
+            return false;
+        }
+    });
+
+    // Phone number formatting
+    const phoneInput = document.getElementById('phone');
+    phoneInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.startsWith('63')) {
+            value = value.substring(2);
+        }
+        if (value.length > 10) {
+            value = value.substring(0, 10);
+        }
+        e.target.value = value ? '+63 ' + value : '';
+    });
+</script>
+
+{% endblock %}

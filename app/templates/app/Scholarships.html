@@ -1,0 +1,116 @@
+<!-- scholarships.html -->
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block title %}Scholarships - Scholarship Management System{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Available Scholarships</h1>
+    <a href="{% url 'applicant_create' %}" class="btn btn-success">Apply Now</a>
+</div>
+
+<!-- Search and Filter -->
+<div class="content-card">
+    <form method="GET" action="{% url 'Scholarships' %}">
+        <div class="search-bar">
+            <input type="text" name="search" class="form-control" placeholder="Search scholarships..." value="{{ request.GET.search }}">
+            <select name="type" class="form-control" style="max-width: 200px;">
+                <option value="">All Types</option>
+                <option value="academic" {% if request.GET.type == 'academic' %}selected{% endif %}>Academic</option>
+                <option value="athletic" {% if request.GET.type == 'athletic' %}selected{% endif %}>Athletic</option>
+                <option value="need_based" {% if request.GET.type == 'need_based' %}selected{% endif %}>Need-Based</option>
+                <option value="merit" {% if request.GET.type == 'merit' %}selected{% endif %}>Merit-Based</option>
+            </select>
+            <select name="status" class="form-control" style="max-width: 200px;">
+                <option value="">All Status</option>
+                <option value="open" {% if request.GET.status == 'open' %}selected{% endif %}>Open</option>
+                <option value="closed" {% if request.GET.status == 'closed' %}selected{% endif %}>Closed</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+</div>
+
+<!-- Scholarships List -->
+<div class="content-card">
+    <h2>Scholarship Programs ({{ scholarships.count }} results)</h2>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Scholarship Name</th>
+                    <th>Type</th>
+                    <th>Award Amount</th>
+                    <th>Slots Available</th>
+                    <th>Deadline</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for scholarship in scholarships %}
+                <tr>
+                    <td>
+                        <strong>{{ scholarship.name }}</strong><br>
+                        <small style="color: #666;">{{ scholarship.provider }}</small>
+                    </td>
+                    <td>
+                        <span class="badge badge-info">{{ scholarship.get_type_display }}</span>
+                    </td>
+                    <td><strong style="color: var(--success);">${{ scholarship.amount }}</strong></td>
+                    <td>{{ scholarship.slots_available }}</td>
+                    <td>{{ scholarship.deadline|date:"M d, Y" }}</td>
+                    <td>
+                        {% if scholarship.is_active %}
+                        <span class="badge badge-success">Open</span>
+                        {% else %}
+                        <span class="badge badge-danger">Closed</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="action-btns">
+                            <a href="{% url 'scholarship_detail' scholarship.id %}" class="btn btn-primary btn-sm">View</a>
+                            {% if scholarship.is_active %}
+                            <a href="{% url 'apply' %}?scholarship={{ scholarship.id }}" class="btn btn-success btn-sm">Apply</a>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" style="text-align: center; padding: 50px;">
+                        <p style="font-size: 18px; color: #999;">No scholarships found matching your criteria.</p>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    {% if scholarships.has_other_pages %}
+    <div class="pagination">
+        {% if scholarships.has_previous %}
+        <a href="?page=1">&laquo; First</a>
+        <a href="?page={{ scholarships.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        {% for num in scholarships.paginator.page_range %}
+        {% if scholarships.number == num %}
+        <span class="active">{{ num }}</span>
+        {% elif num > scholarships.number|add:'-3' and num < scholarships.number|add:'3' %}
+        <a href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+        {% endfor %}
+
+        {% if scholarships.has_next %}
+        <a href="?page={{ scholarships.next_page_number }}">Next</a>
+        <a href="?page={{ scholarships.paginator.num_pages }}">Last &raquo;</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+<!-- Scholarship Details Modal Template (for future enhancement) -->
+{% endblock %}
